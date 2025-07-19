@@ -1,3 +1,5 @@
+import sys
+
 import requests
 
 from bs4 import BeautifulSoup
@@ -18,13 +20,19 @@ class Pencere(QWidget):
         
     def baglanti(self):
         
-        url = "https://www.doviz.com/"
+        try:
+            url = "https://www.doviz.com/"
+            
+            response = requests.get(url)
+            
+            icerik = response.content
+            
+            self.soup = BeautifulSoup(icerik,"html.parser")
         
-        response = requests.get(url)
-        
-        icerik = response.content
-        
-        self.soup = BeautifulSoup(icerik,"html.parser")
+        except:
+            sys.stderr.write("internet baglantisi saglanamadi")
+            sys.stderr.flush()
+            sys.exit()
     
         
     def init_ui(self):
